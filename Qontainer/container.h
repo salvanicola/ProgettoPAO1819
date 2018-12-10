@@ -7,6 +7,7 @@
 
 class noequalstype{};
 class noelementfound{};
+class emptyvector{};
 //exception
 
 //test
@@ -21,25 +22,27 @@ private:
     int size;//effettiva ampiezza dell'array in memoria
     int filling;//numero di elementi nel container
     T* copyarr(const int& )const; //crea una copia dell'array interno con nuove dimensioni
+    static T* copia(T* );
 public:
     //test
     void stmp(){std::cout << p[0] << p[1] << p[2] << p[3];}
     //test
     container(int =10);//
     ~container();//
-    container(const container&);
+    container(const container&)throw (emptyvector);
     bool isempty()const;//ritorna se il contenitore è vuoto
     void add(const T&);//
     T& addinpos(const T&, const int& )throw(std::out_of_range);//
     void sort();//MergeSort
     int search(const T&)const throw(noequalstype, noelementfound);//T deve possedere il confronto ==
-    int remove(const T&);//remove the first element found with this value, return the pos
-    T removeinpos(const int&, bool =0)throw(std::out_of_range);//remove the element in pos i and if slide is true shift all the element
-    T& operator[](const int&)const throw(std::out_of_range);
-    T& at(const int&)const throw(std::out_of_range);
+    int remove(const T&)throw(noequalstype, noelementfound);//remove the first element found with this value, return the pos
+    T removeinpos(const int&)throw(std::out_of_range);//remove the element in pos i and shift all the element
+    T& operator[](const int&)const throw(std::out_of_range);//
+    T& at(const int&)const throw(std::out_of_range);//
 };
 
 //RICORDATI DI SISTEMARE SEMPRE SIZE E FILLING!!
+
 
 template <class T>
 container<T>::container(int s): p(new T[s] ()), size(s), filling(0)
@@ -53,8 +56,16 @@ container<T>::~container(){
 }
 
 template <class T>
+container<T>::container(const container & c)throw (emptyvector){
+    if(c.p==NULL)throw emptyvector();
+    else{
+
+    }
+}
+
+template <class T>
 bool container<T>::isempty()const{
-    if(p==nullptr)return true;
+    if(p==NULL)return true;
     else return false;
 }
 
@@ -182,17 +193,23 @@ T& container<T>::addinpos(const T& el, const int& i)throw(std::out_of_range){
 }
 
 template<class T>
-T container<T>::removeinpos(const int& i, bool slide)throw(std::out_of_range){
-    if(i)
+T container<T>::removeinpos(const int& i)throw(std::out_of_range){
+    if(i>=filling) throw(std::out_of_range("can't remove if there's no element"));
+    else{
+        T aux=p[i];
+        for(int j=i; j<filling; ++j){
+            p[j]=p[j+1];
+        }
+        filling--;
+        return aux;
+    }
 }
 
 template <class T>
-int container<T>::remove(const T& el, bool ){
-    try {
-        search
-    } catch () {
-
-    }
+int container<T>::remove(const T& el)throw(noequalstype, noelementfound){
+    int i=search(el);
+    removeinpos(i);
+    return i;
 }
 
 #endif // CONTAINER_H
