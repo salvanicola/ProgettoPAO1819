@@ -36,7 +36,13 @@ public:
     T& operator[](const iterator&)const;
     T* extract(const iterator&);
 };
+//+++++++++NODO+++++++++++
+template <class T>
+ContainerList<T>::nodo::nodo(): info(0), next(nullptr){}
 
+template<class T>
+ContainerList<T>::nodo::nodo(const T& el, nodo* p): info(el), next(p){}
 
+//+++++++++ITERATOR+++++++++++
 
 #endif // CONTAINERLIST_H
