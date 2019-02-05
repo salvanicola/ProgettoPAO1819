@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-12-05T18:58:33
+# Project created by QtCreator 2019-02-05T16:16:35
 #
 #-------------------------------------------------
 
@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Qontainer
+TARGET = uozapp
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -26,11 +26,23 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        widget.cpp \
+    source/imagemessage.cpp \
+    source/message.cpp \
+    source/textmessage.cpp \
+    Controller-View/controlcore.cpp
 
 HEADERS += \
-        mainwindow.h \
-    container.h
+        widget.h \
+    QontainerList/containerlist.h \
+    QontainerList/deepptr.h \
+    source/imagemessage.h \
+    source/message.h \
+    source/textmessage.h \
+    Controller-View/controlcore.h
+
+FORMS += \
+        widget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
