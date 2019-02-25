@@ -1,133 +1,152 @@
 #ifndef CONTAINERLIST_H
 #define CONTAINERLIST_H
-#include "deepptr.h"
 
-//Debugging tool
-#include <iostream>
-using std::cout;
-using std::endl;
+#include <stdexcept>
+//#include "deepptr.h"
 
 template<class T>
 class ContainerList
 {
-    friend class iterator;
+    friend class const_iterator;
 private:
     class nodo{
     public:
         T info;
-        DeepPtr<nodo> next;
-        //nodo* prev;
-        unsigned int ref;
+        nodo* next;
+        nodo* prev;
         nodo();
-        nodo(const T&, const DeepPtr<nodo>& =nullptr/*, nodo* =nullptr*/);
-        nodo(const nodo&);
+        nodo(const T&,nodo* =nullptr, nodo* =nullptr);
     };
-    DeepPtr<nodo> first;//l'utilizzo della classe DeepPtr ha sul contratto l'utilizzo di un campo ref nel tipo a cui è istanziato (nodo rispetta il vincolo)
-    //devo implementare un metodo di copia profonda da chiamare ogni volta che viene fatta una madifica al contenitore
+    nodo* first;
+    nodo* last;
 public:
-    class iterator{
+    class const_iterator{
         friend class ContainerList;
     private:
-        DeepPtr<nodo> p;//dato che gli iteratori hanno come unico scopo quello di scorrere la lista e non possiedono degli oggetti, non ha senso utilizzare uno smartpointer
+        nodo* p;
     public:
-        iterator(const DeepPtr<nodo>& =0);
-        bool operator==(const iterator&)const;
-        bool operator!=(const iterator&)const;
-        iterator& operator++(); //prefisso
-        iterator operator++(int); //postfisso
+        const_iterator(const nodo* =0);
+        bool operator==(const const_iterator&)const;
+        bool operator!=(const const_iterator&)const;
+        const_iterator& operator++(); //prefisso
+        const_iterator operator++(int); //postfisso
+        const_iterator& operator--(); //prefisso
+        const_iterator operator--(int); //postfisso
     };
     ContainerList();
     ContainerList(const ContainerList&);
     bool vuota()const;
     void push_back(const T&);
     void pop_back();
-    iterator search(const T)const;
-    iterator begin()const;
-    iterator end()const;
-    T& operator[](const iterator&)const;
-    T* extract(const iterator&);
-
-    //debug
-    void printref(){
-        cout << nodo::ref << endl;
-    }
+    const_iterator search(const T&)const;
+    const_iterator begin()const;
+    const_iterator end()const;
+    const_iterator past_the_end()const;
+    T& operator[](const const_iterator&)const;
 };
 //+++++++++NODO+++++++++++
 template <class T>
-ContainerList<T>::nodo::nodo(): info(0), next(nullptr) /*, prev(nullptr)*/{
-    cout << "sono il costruttore di nodo" << endl;
+ContainerList<T>::nodo::nodo(): info(0), next(nullptr), prev(nullptr){
+
 }
 
 template<class T>
-ContainerList<T>::nodo::nodo(const T& el, const DeepPtr<nodo>& n /*, nodo* p*/): info(el), next(n) /*, prev(p)*/{
-    cout << "sono il costruttore a due param di nodo" << endl;
+ContainerList<T>::nodo::nodo(const T& el, nodo* n, nodo* p): info(el), next(n), prev(p){
+
 }
 
-template <class T>
-ContainerList<T>::nodo::nodo(const nodo& n){
-    cout << "sono il costruttore di copia di nodo" << endl;
-    info=n.info;
-    ref=1;
-    if(next!=nullptr)next(DeepPtr<nodo>::copy(n.next));
-}
-
-//+++++++++ITERATOR+++++++++++
+//+++++++++const_iterator+++++++++++
 template<class T>
-ContainerList<T>::iterator::iterator(const DeepPtr<nodo>& punt): p(punt){}
+ContainerList<T>::const_iterator::const_iterator(const nodo* punt): p(punt){}
 
 template<class T>
-bool ContainerList<T>::iterator::operator==(const iterator& it)const{
+bool ContainerList<T>::const_iterator::operator==(const const_iterator& it)const{
     return p==it.p;
 }
 template <class T>
-bool ContainerList<T>::iterator::operator!=(const iterator& it)const{
+bool ContainerList<T>::const_iterator::operator!=(const const_iterator& it)const{
     return p=!it.p;
 }
 
 template <class T>
-typename ContainerList<T>::iterator& ContainerList<T>::iterator::operator++(){
+typename ContainerList<T>::const_iterator& ContainerList<T>::const_iterator::operator++(){
     if (p) p=p->next;
     return *this;
 }
 
 template<class T>
-typename ContainerList<T>::iterator ContainerList<T>::iterator::operator++(int){
-    return p->next;
+typename ContainerList<T>::const_iterator ContainerList<T>::const_iterator::operator++(int){
+    if(p) return p->next;
+    else throw std::out_of_range("out of bound");
+}
+
+template <class T>
+typename ContainerList<T>::const_iterator& ContainerList<T>::const_iterator::operator--(){
+    if (p) p=p->prev;
+    return *this;
+}
+
+template<class T>
+typename ContainerList<T>::const_iterator ContainerList<T>::const_iterator::operator--(int){
+    if(p) return p->prev;
+    else throw std::out_of_range("out of bound");
 }
 
 //+++++++++CONTAINER+++++++++++
 template <class T>
-ContainerList<T>::ContainerList(): first(nullptr){}
+ContainerList<T>::ContainerList(): first(nullptr), last(nullptr){}
 
 template<class T>
 void ContainerList<T>::push_back(const T& el){
     if(first==nullptr){
         first=new nodo(el);
+        last=first;
     }
     else{
-        iterator it=begin();
-        while(it.p->next!=nullptr) it++;
-        it.p->next=new nodo(el, nullptr);//qua chiama assegnazione di deeptr
+        last->next=new nodo(el, nullptr, last);
+        last=last->next;
+    }
+}
+
+template<class T>
+void ContainerList<T>::pop_back(){
+    if(first==nullptr){
+        std::out_of_range("nothing to delete");
+    }
+    else{
+        last=last->prev;
+        delete last->next;
     }
 }
 
 template <class T>
-typename ContainerList<T>::iterator ContainerList<T>::begin()const{
-    iterator aux;
-    aux.p=first;//qui chiama = per il tipo nodo quindi non viene modificato il campo ref di first
-    return aux;
+typename ContainerList<T>::const_iterator ContainerList<T>::begin()const{
+    return first;//convertitore implicito
 }
 
 template <class T>
-typename ContainerList<T>::iterator ContainerList<T>::end()const{
-    iterator aux;
-    aux.p=nullptr;//il puntatore a null è la fine del container
-    return aux;
+typename ContainerList<T>::const_iterator ContainerList<T>::end()const{
+    return nullptr;
+}
+
+template<class T>
+typename ContainerList<T>::const_iterator ContainerList<T>::past_the_end()const{
+    return new const_iterator(last);
 }
 
 template <class T>
-T& ContainerList<T>::operator[](const ContainerList<T>::iterator& it)const{
-    cout << it.p->ref;
-    return it.p->info;
+T& ContainerList<T>::operator[](const ContainerList<T>::const_iterator& it)const{
+    if(it!=nullptr) return it.p->info;
+    else std::out_of_range("not in memory");
+}
+
+template <class T>
+typename ContainerList<T>::const_iterator ContainerList<T>::search(const T& el)const{
+    auto it=begin();
+    for(; it!=end() && it->info==el ; ++it){
+
+    }
+    if(it==nullptr) std::out_of_range("no element found");
+    else return it;
 }
 #endif // CONTAINERLIST_H

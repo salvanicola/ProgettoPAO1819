@@ -7,7 +7,6 @@ class textmessage: public message
 private:
     QString text;
 public:
-    textmessage();
     textmessage(QString="uknown", QString="uknown", message* =nullptr, QString ="");
     virtual ~textmessage()override = default;
     void write(QString );

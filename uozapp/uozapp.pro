@@ -11,6 +11,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = uozapp
 TEMPLATE = app
 
+RC_FILE = myapp.rc
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which has been marked as deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -26,23 +28,29 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        widget.cpp \
     source/imagemessage.cpp \
     source/message.cpp \
     source/textmessage.cpp \
-    Controller-View/controlcore.cpp
+    Controller-View/controlcore.cpp \
+    Controller-View/uozappview.cpp \
+    Controller-View/modeluozapp.cpp \
+    mainwindow.cpp
 
 HEADERS += \
-        widget.h \
     QontainerList/containerlist.h \
     QontainerList/deepptr.h \
     source/imagemessage.h \
     source/message.h \
     source/textmessage.h \
-    Controller-View/controlcore.h
+    Controller-View/controlcore.h \
+    Controller-View/uozappview.h \
+    Controller-View/modeluozapp.h \
+    mainwindow.h
 
 FORMS += \
         widget.ui
+
+
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
