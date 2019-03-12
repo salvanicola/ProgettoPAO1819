@@ -1,19 +1,13 @@
 #include "message.h"
 
-message::message(QString s, QString r, message* m): sender(s), receiver(r), date(QDateTime::currentDateTime()), receive(false), send(false), read(false), answer(m){
-    if(answer!=nullptr){
-        receiver=answer->sender;
-    }
-}
+message::message(bool o, QString s, QString r): sender(s), receiver(r), receive(o), date(QDateTime::currentDateTime()){
 
-void message::setread(){
-    read=true;
-}
-
-void message::setsend(){
-    send=true;
 }
 
 void message::setreceive(){
-    receive=true;
+    if(!receive)receive=true;
+}
+
+void message::setsend(){
+    if(receive) receive=false;
 }

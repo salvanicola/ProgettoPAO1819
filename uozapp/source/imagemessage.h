@@ -10,7 +10,7 @@ private:
     QString description;
 public:
     imagemessage();
-    imagemessage(QString, QString="uknown", QString="uknown", message* =nullptr, QString =nullptr);
+    imagemessage(bool, QString , QString="uknown", QString ="uknown", QString=nullptr);
     virtual ~imagemessage()override = default ;
     virtual void changeimg(QString );
     QString geturl()const;

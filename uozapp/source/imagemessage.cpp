@@ -1,6 +1,6 @@
 #include "imagemessage.h"
 
-imagemessage::imagemessage(QString u, QString m, QString d, message* a, QString desc): message(m,d,a), url(u), description(desc)
+imagemessage::imagemessage(bool r, QString u, QString m, QString d, QString desc): message(r,m,d), url(u), description(desc)
 {
 
 }

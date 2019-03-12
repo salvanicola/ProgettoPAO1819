@@ -1,6 +1,6 @@
 #include "textmessage.h"
 
-textmessage::textmessage(QString m, QString d, message* a, QString s): message(m,d,a), text(s)
+textmessage::textmessage(bool r,QString m, QString d, QString s): message(r,m,d), text(s)
 {
 
 }
