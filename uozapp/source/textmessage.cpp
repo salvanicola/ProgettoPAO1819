@@ -1,6 +1,6 @@
 #include "textmessage.h"
 
-textmessage::textmessage(QString m, QString d, message* a, QString s): message(m,d,a), text(s)
+textmessage::textmessage(bool f, QString m, QString d, QString s): message(f,m,d), text(s)
 {
 
 }
@@ -14,11 +14,11 @@ int textmessage::getlenght()const{
 }
 
 textmessage* textmessage::sendmex(){
-    setsend();
-    return new textmessage(*this);
+    textmessage* aux= new textmessage(*this);
+    setreceive();
+    return aux;
 }
 
-textmessage* textmessage::receivemex(){
-    setreceive();
-    return new textmessage(*this);
+QString textmessage::getText() const{
+    return text;
 }

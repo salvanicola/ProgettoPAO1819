@@ -8,21 +8,17 @@ class message
 private:
     QString sender;
     QString receiver;
-    QDateTime date;//libreria Qt costr QDatetime(date, time) QDate(years, month, days) Qtime(h, m, s)
+    const QDateTime* date;//libreria Qt costr QDatetime(date, time) QDate(years, month, days) Qtime(h, m, s)
     //si riferisce alla data di creazione del messaggio
     bool receive;
-    bool send;
-    bool read;
-    message* answer;
 protected:
-    virtual void setread();
     virtual void setsend();
     virtual void setreceive();
 public:
-    message(QString ="uknown", QString ="uknown", message* =nullptr) ;
+    message(bool, QString ="uknown", QString ="uknown") ;
     virtual ~message() = default;
+    const QDateTime* getDate()const;
     virtual message* sendmex() = 0;//metodo di clonazione con specifica non costante perchè segna send=true
-    virtual message* receivemex() = 0;//metodo di clonazione con specifica non costante perchè segna receive=true
 };
 
 #endif // MESSAGE_H. 0

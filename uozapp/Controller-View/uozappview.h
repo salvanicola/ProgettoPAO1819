@@ -9,6 +9,8 @@
 #include <QLabel>
 #include <QGroupBox>
 #include<QTextBrowser>
+#include "./source/message.h"
+#include "./source/textmessage.h"
 
 class ControlCore;//necessari per inclusione incrociata dei file .h che darebbe errore sull'ifndef
 
@@ -19,12 +21,14 @@ public:
     explicit UozAppview(ControlCore *control = nullptr, QWidget *parent = nullptr);
     void setSender_Receiver(QString, QString);
     QString getText();
-    QString* getsender_receiver();   
+    QString getsender();
+    QString getreceiver();
 signals:
 
 public slots:
-    void newMessage(QString, QString);
     void pressSend();
+    void showmessagesent(message* );
+    void showmessagereceived(message*);
 private:
     ControlCore* controller;
     QTextBrowser* chat;

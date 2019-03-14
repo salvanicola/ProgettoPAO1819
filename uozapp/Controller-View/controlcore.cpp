@@ -2,7 +2,14 @@
 #include "uozappview.h"
 #include "modeluozapp.h"
 
-ControlCore::ControlCore(QObject *parent) : QObject(parent), model1(model1->getinstance()), model2(model2->getinstance()), view1(new UozAppview(this)), view2(new UozAppview(this)){}
+
+ControlCore::ControlCore(QObject *parent) : QObject(parent), model1(new Modeluozapp()), model2(new Modeluozapp()), view1(new UozAppview(this)), view2(new UozAppview(this))
+{
+    connect(model1, SIGNAL(messagesend(message* )),view1, SLOT(showmessagesent(message* )));
+    connect(model2, SIGNAL(messagesend(message* )),view2, SLOT(showmessagesent(message* )));
+    connect(model1, SIGNAL(messagereceive(message* )),view1, SLOT(showmessagereceived(message* )));
+    connect(model2, SIGNAL(messagereceive(message* )),view2, SLOT(showmessagereceived(message* )));
+}
 
 void ControlCore::showchat(QString s1, QString s2){
     chatter1=s1;
@@ -19,7 +26,8 @@ void ControlCore::showchat(QString s1, QString s2){
 }
 
 void ControlCore::sendAMessage(UozAppview* v){
-    model1->sendmessage(v->getText(), (v->getsender_receiver())[0], (v->getsender_receiver())[1]/*da mettere answer*/ /*damettereimmagine*/);
-    view1->newMessage(v->getText(), (v->getsender_receiver())[0]);
-    view2->newMessage(v->getText(), (v->getsender_receiver())[0]);
+    if(v){
+        message* toreceive=model1->sendmessage(v->getText(), (v->getsender()), (v->getreceiver())/*da mettere answer*/ /*damettereimmagine*/);
+        model2->receivemessage(toreceive);
+    }
 }

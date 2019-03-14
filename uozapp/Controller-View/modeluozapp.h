@@ -11,19 +11,17 @@ class Modeluozapp : public QObject
 {
     Q_OBJECT
 public:
-    static Modeluozapp* getinstance();
+    explicit Modeluozapp(QObject *parent = nullptr);
 private:
     ContainerList<message*> v;
-    explicit Modeluozapp(QObject *parent = nullptr);
-    static Modeluozapp* themodel;//unique model
 signals:
     void newmessage();
-    void messagereceived(message* );
+    void messagereceive(message* );
     //void messageremoved();
     void messagesend(message* );
     message* answeringto(message* );
 public slots:
-    message* sendmessage(QString, QString ="uknown", QString="uknown", message* =nullptr, QString=nullptr);
+    message* sendmessage(QString, QString ="uknown", QString="uknown", QString=nullptr);
     void receivemessage(message* );
     //void removemessage(message* )
 };

@@ -6,17 +6,17 @@
 class imagemessage: public message
 {
 private:
-    QString url;//usa QPixmap
+    QString url;
     QString description;
+protected:
+    virtual void changeimg(QString );
 public:
     imagemessage();
-    imagemessage(QString, QString="uknown", QString="uknown", message* =nullptr, QString =nullptr);
+    imagemessage(bool, QString, QString="uknown", QString="uknown", QString =nullptr);
     virtual ~imagemessage()override = default ;
-    virtual void changeimg(QString );
     QString geturl()const;
-    QString getdescription()const;
+    QString getdescription()const;//may return nullptr
     virtual imagemessage* sendmex()override;
-    virtual imagemessage* receivemex()override;
 };
 
 #endif // IMAGEMESSAGE_H

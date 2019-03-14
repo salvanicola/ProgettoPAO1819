@@ -1,6 +1,7 @@
 #include "controlcore.h"
 #include "uozappview.h"
 
+
 UozAppview::UozAppview(ControlCore* control, QWidget *parent) : QWidget(parent),controller(control), chat(new QTextBrowser(this)), textbox(new QLineEdit()), p(new QPushButton("send"))
 {
     setWindowFlags(Qt::WindowTitleHint);
@@ -27,17 +28,34 @@ QString UozAppview::getText(){
     return textbox->text();
 }
 
-QString* UozAppview::getsender_receiver(){
-    QString array[2] = {sender, receiver};
-    return  array;
+QString UozAppview::getsender(){
+    return  sender;
 }
 
-void UozAppview::newMessage(QString text, QString sender){
-    QString text4chat="<";
-    text4chat.append(sender);
-    text4chat.append("> ");
-    text4chat.append(text);
-    text4chat=text4chat.rightJustified(8);
-    chat->append(text4chat);
-    //chat->addWidget(label);
+QString UozAppview::getreceiver(){
+    return  receiver;
+}
+
+void UozAppview::showmessagesent(message* m){
+    if(dynamic_cast<textmessage*>(m)){
+        QString text4chat="<";
+        text4chat.append(sender);
+        text4chat.append("> ");
+        text4chat.append(dynamic_cast<textmessage*>(m)->getText());
+        text4chat=text4chat.rightJustified(8);
+        chat->append(text4chat);
+        //chat->addWidget(label);
+    }
+}
+
+void UozAppview::showmessagereceived(message* m){
+    if(dynamic_cast<textmessage*>(m)){
+        QString text4chat="<";
+        text4chat.append(sender);
+        text4chat.append("> ");
+        text4chat.append(dynamic_cast<textmessage*>(m)->getText());
+        text4chat=text4chat.rightJustified(8);
+        chat->append(text4chat);
+        //chat->addWidget(label);
+    }
 }
