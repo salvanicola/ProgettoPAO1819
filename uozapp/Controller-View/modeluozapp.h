@@ -13,10 +13,10 @@ class Modeluozapp : public QObject
 public:
     explicit Modeluozapp(QObject *parent = nullptr);
 private:
-    ContainerList<message*> v; 
+    ContainerList<message*> v;
 signals:
     void newmessage();
-    void messagereceived(message* );
+    void messagereceive(message* );
     //void messageremoved();
     void messagesend(message* );
 public slots:

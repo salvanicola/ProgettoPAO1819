@@ -1,13 +1,17 @@
 #include "message.h"
 
-message::message(bool o, QString s, QString r): sender(s), receiver(r), receive(o), date(QDateTime::currentDateTime()){
+message::message(bool f, QString s, QString r): sender(s), receiver(r), date(new QDateTime(QDateTime::currentDateTime())), receive(f){
 
+}
+
+void message::setsend(){
+    if(receive)receive=false;
 }
 
 void message::setreceive(){
     if(!receive)receive=true;
 }
 
-void message::setsend(){
-    if(receive) receive=false;
+const QDateTime* message::getDate() const{
+    return date;
 }

@@ -13,13 +13,18 @@ void Modeluozapp::sendmessage(QString text, QString sender, QString receiver, QS
     else{
         textmessage* mex= new textmessage(false, sender, receiver, text);
         v.push_back(mex);
+        textmessage* tosend=mex->sendmex();
+        emit messagesend(tosend);
+        return tosend;        
     }
 }
 
 void Modeluozapp::receivemessage(message* m){
     if(m!=nullptr){
-        message* mexreceive=m->receivemex();
-        v.push_back(mexreceive);
-        emit messagereceived(mexreceive);
+        v.push_back(m);
+        emit messagereceive(m);
+    }
+    else{
+        //eccezione da mettere
     }
 }

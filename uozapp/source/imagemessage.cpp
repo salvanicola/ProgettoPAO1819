@@ -1,6 +1,6 @@
 #include "imagemessage.h"
 
-imagemessage::imagemessage(bool r, QString u, QString m, QString d, QString desc): message(r,m,d), url(u), description(desc)
+imagemessage::imagemessage(bool f, QString u, QString m, QString d, QString desc): message(f,m,d), url(u), description(desc)
 {
 
 }
@@ -18,11 +18,8 @@ QString imagemessage::getdescription() const{
 }
 
 imagemessage* imagemessage::sendmex(){
-    setsend();
-    return new imagemessage(*this);
+    imagemessage* aux= new imagemessage(*this);
+    setreceive();
+    return aux;
 }
 
-imagemessage* imagemessage::receivemex(){
-    setreceive();
-    return new imagemessage(*this);
-}
