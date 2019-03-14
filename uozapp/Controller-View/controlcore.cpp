@@ -2,7 +2,6 @@
 #include "uozappview.h"
 #include "modeluozapp.h"
 
-
 ControlCore::ControlCore(QObject *parent) : QObject(parent), model1(new Modeluozapp()), model2(new Modeluozapp()), view1(new UozAppview(this)), view2(new UozAppview(this))
 {
     connect(model1, SIGNAL(messagesend(message* )),view1, SLOT(showmessagesent(message* )));

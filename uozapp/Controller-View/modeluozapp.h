@@ -19,9 +19,8 @@ signals:
     void messagereceive(message* );
     //void messageremoved();
     void messagesend(message* );
-    message* answeringto(message* );
 public slots:
-    message* sendmessage(QString, QString ="uknown", QString="uknown", QString=nullptr);
+    void sendmessage(QString, QString ="uknown", QString="uknown", QString=nullptr);
     void receivemessage(message* );
     //void removemessage(message* )
 };

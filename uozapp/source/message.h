@@ -12,10 +12,10 @@ private:
     //si riferisce alla data di creazione del messaggio
     bool receive;
 protected:
-    virtual void setsend();
     virtual void setreceive();
+    virtual void setsend();
 public:
-    message(bool, QString ="uknown", QString ="uknown") ;
+    message(bool , QString ="uknown", QString ="uknown") ;
     virtual ~message() = default;
     const QDateTime* getDate()const;
     virtual message* sendmex() = 0;//metodo di clonazione con specifica non costante perchè segna send=true

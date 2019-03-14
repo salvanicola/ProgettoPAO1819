@@ -1,19 +1,14 @@
 #include "modeluozapp.h"
-#include <iostream>
-
 
 Modeluozapp::Modeluozapp(QObject *parent) : QObject(parent)
 {
 
 }
 
-message* Modeluozapp::sendmessage(QString text, QString sender, QString receiver, QString urlimg){
+void Modeluozapp::sendmessage(QString text, QString sender, QString receiver, QString urlimg){
     if(urlimg!=nullptr){
         imagemessage* image=new imagemessage(false, urlimg, sender, receiver, text);
-        imagemessage* tosend=image->sendmex();
         v.push_back(image);
-        emit messagesend(tosend);
-        return tosend;
     }
     else{
         textmessage* mex= new textmessage(false, sender, receiver, text);
@@ -22,7 +17,6 @@ message* Modeluozapp::sendmessage(QString text, QString sender, QString receiver
         emit messagesend(tosend);
         return tosend;        
     }
-
 }
 
 void Modeluozapp::receivemessage(message* m){
