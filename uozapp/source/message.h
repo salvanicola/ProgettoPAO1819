@@ -18,6 +18,7 @@ public:
     message(bool , QString ="uknown", QString ="uknown") ;
     virtual ~message() = default;
     const QDateTime* getDate()const;
+    bool getreceive()const;
     virtual message* sendmex() = 0;//metodo di clonazione con specifica non costante perchè segna send=true
 };
 

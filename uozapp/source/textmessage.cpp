@@ -17,7 +17,7 @@ int textmessage::getlenght()const{
 
 textmessage* textmessage::sendmex(){
     textmessage* aux= new textmessage(*this);
-    setreceive();
+    aux->setreceive();
     return aux;
 }
 

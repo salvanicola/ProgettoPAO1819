@@ -25,8 +25,12 @@ void ControlCore::showchat(QString s1, QString s2){
 }
 
 void ControlCore::sendAMessage(UozAppview* v){
-    if(v){
+    if(v==view1){
         message* toreceive=model1->sendmessage(v->getText(), (v->getsender()), (v->getreceiver())/*da mettere answer*/ /*damettereimmagine*/);
         model2->receivemessage(toreceive);
+    }
+    else{
+        message* toreceive=model2->sendmessage(v->getText(), (v->getsender()), (v->getreceiver())/*da mettere answer*/ /*damettereimmagine*/);
+        model1->receivemessage(toreceive);
     }
 }
