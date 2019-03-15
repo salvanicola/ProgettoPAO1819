@@ -20,7 +20,7 @@ signals:
     //void messageremoved();
     void messagesend(message* );
 public slots:
-    void sendmessage(QString, QString ="uknown", QString="uknown", QString=nullptr);
+    message* sendmessage(QString, QString ="uknown", QString="uknown", QString=nullptr);
     void receivemessage(message* );
     //void removemessage(message* )
 };

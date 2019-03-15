@@ -42,7 +42,6 @@ void UozAppview::showmessagesent(message* m){
         text4chat.append(sender);
         text4chat.append("> ");
         text4chat.append(dynamic_cast<textmessage*>(m)->getText());
-        text4chat=text4chat.rightJustified(8);
         chat->append(text4chat);
         //chat->addWidget(label);
     }
@@ -51,7 +50,7 @@ void UozAppview::showmessagesent(message* m){
 void UozAppview::showmessagereceived(message* m){
     if(dynamic_cast<textmessage*>(m)){
         QString text4chat="<";
-        text4chat.append(sender);
+        text4chat.append(receiver);
         text4chat.append("> ");
         text4chat.append(dynamic_cast<textmessage*>(m)->getText());
         text4chat=text4chat.rightJustified(8);
