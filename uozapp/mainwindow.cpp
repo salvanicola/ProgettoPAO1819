@@ -5,10 +5,12 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QApplication>
+#include <QDesktopWidget>
 
 
 mainwindow::mainwindow(QWidget *parent) : QMainWindow(parent)
 {
+    resize(QDesktopWidget().availableGeometry(this).size()*0.7);
     QWidget* w=new QWidget(this);
     QGridLayout* layout=new QGridLayout(w);
     setWindowTitle("Uozapp");

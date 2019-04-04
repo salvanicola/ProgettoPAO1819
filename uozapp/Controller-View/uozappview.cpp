@@ -2,7 +2,7 @@
 #include "uozappview.h"
 
 
-UozAppview::UozAppview(ControlCore* control, QWidget *parent) : QWidget(parent),controller(control), chat(new QTextBrowser(this)), textbox(new QLineEdit()), p(new QPushButton("send"))
+UozAppview::UozAppview(ControlCore* control, QDockWidget *parent) : QDockWidget(parent),controller(control), chat(new QTextBrowser(this)), textbox(new QLineEdit()), p(new QPushButton("send"))
 {
     setWindowFlags(Qt::WindowTitleHint);
     QGridLayout* layout= new QGridLayout();
@@ -10,7 +10,9 @@ UozAppview::UozAppview(ControlCore* control, QWidget *parent) : QWidget(parent),
     layout->addWidget(chat,0,0,1,3);
     layout->addWidget(textbox, 1, 0, 1, 2);
     layout->addWidget(p, 1,2);
-    setLayout(layout);
+    QWidget* widget=new QWidget();
+    widget->setLayout(layout);
+    setWidget(widget);
     connect(p, SIGNAL(clicked()), this , SLOT(pressSend()));
     connect(p, SIGNAL(clicked()), textbox, SLOT(clear()));
 }
@@ -44,6 +46,9 @@ void UozAppview::showmessagesent(message* m){
         text4chat.append(dynamic_cast<textmessage*>(m)->getText());
         chat->append(text4chat);
         //chat->addWidget(label);
+    }
+    if(dynamic_cast<imagemessage*>(m)){
+
     }
 }
 

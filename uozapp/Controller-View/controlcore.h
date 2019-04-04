@@ -2,6 +2,8 @@
 #define CONTROLCORE_H
 
 #include <QObject>
+#include <QMainWindow>
+
 class UozAppview;
 class Modeluozapp;//necessari per inclusione incrociata dei file .h che darebbe errore sull'ifndef
 
@@ -9,6 +11,7 @@ class ControlCore : public QObject
 {
     Q_OBJECT
 private:
+    QMainWindow* mainwindow;
     Modeluozapp* model1;
     Modeluozapp* model2;
     UozAppview* view1;
@@ -16,7 +19,7 @@ private:
     QString chatter1;
     QString chatter2;
 public:
-    explicit ControlCore(QObject *parent = nullptr);
+    explicit ControlCore(QMainWindow *parent = nullptr);
     void sendAMessage(UozAppview* );
 signals:
 

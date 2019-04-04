@@ -324,6 +324,11 @@ debug/moc_uozappview.cpp: D:/Qt/5.12.0/mingw73_64/include/QtWidgets/QWidget \
 		D:/Qt/5.12.0/mingw73_64/include/QtWidgets/qtextbrowser.h \
 		D:/Qt/5.12.0/mingw73_64/include/QtWidgets/qtextedit.h \
 		D:/Qt/5.12.0/mingw73_64/include/QtGui/qtextdocument.h \
+		../uozapp/source/message.h \
+		D:/Qt/5.12.0/mingw73_64/include/QtCore/QDateTime \
+		D:/Qt/5.12.0/mingw73_64/include/QtCore/qdatetime.h \
+		D:/Qt/5.12.0/mingw73_64/include/QtCore/QString \
+		../uozapp/source/textmessage.h \
 		../uozapp/Controller-View/uozappview.h \
 		debug/moc_predefs.h \
 		D:/Qt/5.12.0/mingw73_64/bin/moc.exe
@@ -922,14 +927,14 @@ debug/controlcore.o: ../uozapp/Controller-View/controlcore.cpp ../uozapp/Control
 		D:/Qt/5.12.0/mingw73_64/include/QtWidgets/qtextbrowser.h \
 		D:/Qt/5.12.0/mingw73_64/include/QtWidgets/qtextedit.h \
 		D:/Qt/5.12.0/mingw73_64/include/QtGui/qtextdocument.h \
-		../uozapp/Controller-View/modeluozapp.h \
-		../uozapp/QontainerList/containerlist.h \
 		../uozapp/source/message.h \
 		D:/Qt/5.12.0/mingw73_64/include/QtCore/QDateTime \
 		D:/Qt/5.12.0/mingw73_64/include/QtCore/qdatetime.h \
 		D:/Qt/5.12.0/mingw73_64/include/QtCore/QString \
-		../uozapp/source/imagemessage.h \
-		../uozapp/source/textmessage.h
+		../uozapp/source/textmessage.h \
+		../uozapp/Controller-View/modeluozapp.h \
+		../uozapp/QontainerList/containerlist.h \
+		../uozapp/source/imagemessage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\controlcore.o ..\uozapp\Controller-View\controlcore.cpp
 
 debug/uozappview.o: ../uozapp/Controller-View/uozappview.cpp ../uozapp/Controller-View/controlcore.h \
@@ -1064,7 +1069,12 @@ debug/uozappview.o: ../uozapp/Controller-View/uozappview.cpp ../uozapp/Controlle
 		D:/Qt/5.12.0/mingw73_64/include/QtWidgets/QTextBrowser \
 		D:/Qt/5.12.0/mingw73_64/include/QtWidgets/qtextbrowser.h \
 		D:/Qt/5.12.0/mingw73_64/include/QtWidgets/qtextedit.h \
-		D:/Qt/5.12.0/mingw73_64/include/QtGui/qtextdocument.h
+		D:/Qt/5.12.0/mingw73_64/include/QtGui/qtextdocument.h \
+		../uozapp/source/message.h \
+		D:/Qt/5.12.0/mingw73_64/include/QtCore/QDateTime \
+		D:/Qt/5.12.0/mingw73_64/include/QtCore/qdatetime.h \
+		D:/Qt/5.12.0/mingw73_64/include/QtCore/QString \
+		../uozapp/source/textmessage.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\uozappview.o ..\uozapp\Controller-View\uozappview.cpp
 
 debug/modeluozapp.o: ../uozapp/Controller-View/modeluozapp.cpp ../uozapp/Controller-View/modeluozapp.h \
