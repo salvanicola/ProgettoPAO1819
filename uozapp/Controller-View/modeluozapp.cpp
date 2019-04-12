@@ -10,6 +10,7 @@ message* Modeluozapp::sendmessage(QString text, QString sender, QString receiver
     if(urlimg!=nullptr){
         imagemessage* image=new imagemessage(false, urlimg, sender, receiver, text);
         v.push_back(image);
+        emit messagesend(image);
         return image;
     }
     else{

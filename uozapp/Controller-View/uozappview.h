@@ -10,6 +10,8 @@
 #include <QGroupBox>
 #include<QTextBrowser>
 #include <QDockWidget>
+#include <QTextDocumentFragment>
+#include <QFileDialog>
 #include "./source/message.h"
 #include "./source/textmessage.h"
 #include "./source/imagemessage.h"
@@ -28,7 +30,8 @@ public:
 signals:
 
 public slots:
-    void pressSend();
+    void pressSendT();
+    void pressSendI();
     void showmessagesent(message* );
     void showmessagereceived(message*);
 private:
@@ -36,6 +39,7 @@ private:
     QTextBrowser* chat;
     QLineEdit* textbox;
     QPushButton* p;
+    QPushButton* buttonimage;
     QString sender;
     QString receiver;
 };

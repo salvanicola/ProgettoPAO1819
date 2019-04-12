@@ -20,7 +20,8 @@ private:
     QString chatter2;
 public:
     explicit ControlCore(QMainWindow *parent = nullptr);
-    void sendAMessage(UozAppview* );
+    void sendATMessage(UozAppview* );
+    void sendAIMessage(UozAppview* , QString);
 signals:
 
 public slots:

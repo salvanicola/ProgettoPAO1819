@@ -22,17 +22,26 @@ void ControlCore::showchat(QString s1, QString s2){
     view2->setSender_Receiver(chatter2, chatter1);
     mainwindow->addDockWidget(Qt::LeftDockWidgetArea, view1);
     mainwindow->addDockWidget(Qt::RightDockWidgetArea, view2);
-   /* view1->show();
-    view2->show();*/
 }
 
-void ControlCore::sendAMessage(UozAppview* v){
+void ControlCore::sendATMessage(UozAppview* v){
     if(v==view1){
-        message* toreceive=model1->sendmessage(v->getText(), (v->getsender()), (v->getreceiver())/*da mettere answer*/ /*damettereimmagine*/);
+        message* toreceive=model1->sendmessage(v->getText(), (v->getsender()), (v->getreceiver()));
         model2->receivemessage(toreceive);
     }
     else{
-        message* toreceive=model2->sendmessage(v->getText(), (v->getsender()), (v->getreceiver())/*da mettere answer*/ /*damettereimmagine*/);
+        message* toreceive=model2->sendmessage(v->getText(), (v->getsender()), (v->getreceiver()));
+        model1->receivemessage(toreceive);
+    }
+}
+
+void ControlCore::sendAIMessage(UozAppview *v, QString file){
+    if(v==view1){
+        message* toreceive=model1->sendmessage(v->getText(), (v->getsender()), (v->getreceiver()),file);
+        model2->receivemessage(toreceive);
+    }
+    else{
+        message* toreceive=model2->sendmessage(v->getText(), (v->getsender()), (v->getreceiver()),file);
         model1->receivemessage(toreceive);
     }
 }

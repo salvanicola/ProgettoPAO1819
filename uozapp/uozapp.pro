@@ -34,7 +34,8 @@ SOURCES += \
     Controller-View/controlcore.cpp \
     Controller-View/uozappview.cpp \
     Controller-View/modeluozapp.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    source/contactmessage.cpp
 
 HEADERS += \
     QontainerList/containerlist.h \
@@ -45,10 +46,8 @@ HEADERS += \
     Controller-View/controlcore.h \
     Controller-View/uozappview.h \
     Controller-View/modeluozapp.h \
-    mainwindow.h
-
-FORMS += \
-        widget.ui
+    mainwindow.h \
+    source/contactmessage.h
 
 
 
