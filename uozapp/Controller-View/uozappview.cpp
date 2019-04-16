@@ -2,22 +2,26 @@
 #include "uozappview.h"
 
 
-UozAppview::UozAppview(ControlCore* control, QDockWidget *parent) : QDockWidget(parent),controller(control), chat(new QTextBrowser(this)), textbox(new QLineEdit()), p(new QPushButton("send")), buttonimage(new QPushButton("send image"))
+UozAppview::UozAppview(ControlCore* control, QDockWidget *parent) : QDockWidget(parent),controller(control), chat(new QTextBrowser(this)), textbox(new QTextEdit()), p(new QPushButton("send")), buttonimage(new QPushButton("send image")), buttoncontact(new QPushButton("send contact"))
 {
     setWindowFlags(Qt::WindowTitleHint);
     QGridLayout* layout= new QGridLayout();
     textbox->setPlaceholderText("Nuovo Messaggio");
     layout->addWidget(chat,0,0,1,3);
-    layout->addWidget(textbox, 1, 0, 1, 2);
+    layout->setRowStretch(0,2);
+
+    layout->addWidget(textbox, 1, 0, 3, 2);
     layout->addWidget(p, 1,2);
     layout->addWidget(buttonimage,2,2);
+    layout->addWidget(buttoncontact,3,2);
     QWidget* widget=new QWidget();
     widget->setLayout(layout);
     setWidget(widget);
     connect(p, SIGNAL(clicked()), this , SLOT(pressSendT()));
-    connect(textbox, SIGNAL(returnPressed()), p, SLOT(click()));
+    //connect(textbox, SIGNAL(returnPressed()), p, SLOT(click()));se torna la QLineEdit
     connect(p, SIGNAL(clicked()), textbox, SLOT(clear()));
     connect(buttonimage, SIGNAL(clicked()), this, SLOT(pressSendI()));
+    connect(buttoncontact,SIGNAL(clicked()),this, SLOT(pressSendC()));
 
 }
 
@@ -39,8 +43,13 @@ void UozAppview::pressSendI(){
     controller->sendAIMessage(this,file);
 }
 
+void UozAppview::pressSendC(){
+    QWidget* contactdialog=new QWidget(this);
+
+}
+
 QString UozAppview::getText(){
-    return textbox->text();
+    return textbox->toPlainText();
 }
 
 QString UozAppview::getsender(){

@@ -1,0 +1,9 @@
+
+*.stash
+*.o
+*.cpp
+*.h
+*.exe
+*.Debug
+*.Release
+build-uozapp-Desktop_Qt_5_12_0_MinGW_64_bit-Debug/Makefile

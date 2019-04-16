@@ -32,14 +32,16 @@ signals:
 public slots:
     void pressSendT();
     void pressSendI();
+    void pressSendC();
     void showmessagesent(message* );
     void showmessagereceived(message*);
 private:
     ControlCore* controller;
     QTextBrowser* chat;
-    QLineEdit* textbox;
+    QTextEdit* textbox;
     QPushButton* p;
     QPushButton* buttonimage;
+    QPushButton* buttoncontact;
     QString sender;
     QString receiver;
 };
