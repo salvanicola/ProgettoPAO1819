@@ -6,6 +6,7 @@
 #include "./source/message.h"
 #include "./source/imagemessage.h"
 #include "./source/textmessage.h"
+#include "./source/contactmessage.h"
 
 class Modeluozapp : public QObject
 {
@@ -20,7 +21,7 @@ signals:
     //void messageremoved();
     void messagesend(message* );
 public slots:
-    message* sendmessage(QString, QString ="uknown", QString="uknown", QString=nullptr);
+    message* sendmessage(ContainerList<QString>*, QString ="uknown", QString="uknown");
     void receivemessage(message* );
     //void removemessage(message* )
 };

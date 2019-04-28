@@ -19,11 +19,12 @@ private:
     };
     nodo* first;
     nodo* last;
+    int size;//implementa la size per risolvere il problema dell'outofbound
 public:
     class const_iterator{
         friend class ContainerList;
     private:
-        nodo* p;
+        const nodo* p;
     public:
         const_iterator(const nodo* =0);
         bool operator==(const const_iterator&)const;
@@ -32,6 +33,7 @@ public:
         const_iterator operator++(int); //postfisso
         const_iterator& operator--(); //prefisso
         const_iterator operator--(int); //postfisso
+        const_iterator operator+(int);
     };
     ContainerList();
     ContainerList(const ContainerList&);
@@ -42,7 +44,7 @@ public:
     const_iterator begin()const;
     const_iterator end()const;
     const_iterator past_the_end()const;
-    T& operator[](const const_iterator&)const;
+    const T& operator[](const const_iterator&)const;
 };
 //+++++++++NODO+++++++++++
 template <class T>
@@ -65,19 +67,28 @@ bool ContainerList<T>::const_iterator::operator==(const const_iterator& it)const
 }
 template <class T>
 bool ContainerList<T>::const_iterator::operator!=(const const_iterator& it)const{
-    return p=!it.p;
+    return (p!=(it.p));
 }
 
+#include <iostream>
 template <class T>
 typename ContainerList<T>::const_iterator& ContainerList<T>::const_iterator::operator++(){
+
     if (p) p=p->next;
+    else {
+        throw std::out_of_range("chepalle");
+        return nullptr;
+    }
     return *this;
 }
 
 template<class T>
 typename ContainerList<T>::const_iterator ContainerList<T>::const_iterator::operator++(int){
     if(p) return p->next;
-    else throw std::out_of_range("out of bound");
+    else {
+        throw std::out_of_range("out of bound");
+        return nullptr;
+    }
 }
 
 template <class T>
@@ -89,7 +100,20 @@ typename ContainerList<T>::const_iterator& ContainerList<T>::const_iterator::ope
 template<class T>
 typename ContainerList<T>::const_iterator ContainerList<T>::const_iterator::operator--(int){
     if(p) return p->prev;
-    else throw std::out_of_range("out of bound");
+    else {
+        throw std::out_of_range("out of bound");
+        return nullptr;
+    }
+}
+
+template<class T>
+typename ContainerList<T>::const_iterator ContainerList<T>::const_iterator::operator+(int n){
+    for(int i=0; i<n; i++){
+        if (p) p=p->next;
+        std::cout<<"im here";
+
+    }
+    return *this;
 }
 
 //+++++++++CONTAINER+++++++++++
@@ -135,7 +159,7 @@ typename ContainerList<T>::const_iterator ContainerList<T>::past_the_end()const{
 }
 
 template <class T>
-T& ContainerList<T>::operator[](const ContainerList<T>::const_iterator& it)const{
+const T& ContainerList<T>::operator[](const ContainerList<T>::const_iterator& it)const{
     if(it!=nullptr) return it.p->info;
     else std::out_of_range("not in memory");
 }

@@ -9,7 +9,6 @@ UozAppview::UozAppview(ControlCore* control, QDockWidget *parent) : QDockWidget(
     textbox->setPlaceholderText("Nuovo Messaggio");
     layout->addWidget(chat,0,0,1,3);
     layout->setRowStretch(0,2);
-
     layout->addWidget(textbox, 1, 0, 3, 2);
     layout->addWidget(p, 1,2);
     layout->addWidget(buttonimage,2,2);
@@ -44,8 +43,31 @@ void UozAppview::pressSendI(){
 }
 
 void UozAppview::pressSendC(){
-    QWidget* contactdialog=new QWidget(this);
-
+    QWidget* contactdialog=new QWidget();
+    QGridLayout* lay=new QGridLayout(contactdialog);
+    lay->addWidget(new QLabel("Name"),0,0);
+    QLineEdit* nome=new QLineEdit();
+    nome->setPlaceholderText("Mario");
+    lay->addWidget(nome,0,1);
+    lay->addWidget(new QLabel("Surname"),1,0);
+    QLineEdit* cognome=new QLineEdit();
+    cognome->setPlaceholderText("Rossi");
+    lay->addWidget(cognome,1,1);
+    lay->addWidget(new QLabel("nickname"),2,0);
+    QLineEdit* nickname=new QLineEdit();
+    nickname->setPlaceholderText("mariorossi");
+    lay->addWidget(nickname,2,1);
+    QLineEdit* prefix=new QLineEdit();
+    prefix->setPlaceholderText("prefix");
+    QLineEdit* number=new QLineEdit();
+    number->setPlaceholderText("number");
+    lay->addWidget(number,3,1);
+    lay->addWidget(prefix,3,0);
+    lay->setColumnStretch(1,2);
+    QPushButton* ok=new QPushButton("send");
+    connect(ok, &QPushButton::clicked, controller, [=](){controller->sendACMEssage(this,nome->text(),cognome->text(),nickname->text(),prefix->text(),number->text());});
+    contactdialog->setLayout(lay);
+    contactdialog->show();
 }
 
 QString UozAppview::getText(){

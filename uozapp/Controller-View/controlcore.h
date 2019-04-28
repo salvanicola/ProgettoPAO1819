@@ -22,6 +22,7 @@ public:
     explicit ControlCore(QMainWindow *parent = nullptr);
     void sendATMessage(UozAppview* );
     void sendAIMessage(UozAppview* , QString);
+    void sendACMEssage(UozAppview*, QString,QString,QString,QString,QString);
 signals:
 
 public slots:

@@ -25,23 +25,36 @@ void ControlCore::showchat(QString s1, QString s2){
 }
 
 void ControlCore::sendATMessage(UozAppview* v){
+    ContainerList<QString>* data=new ContainerList<QString>();
     if(v==view1){
-        message* toreceive=model1->sendmessage(v->getText(), (v->getsender()), (v->getreceiver()));
+        data->push_back(v->getText());
+        message* toreceive=model1->sendmessage(data, (v->getsender()), (v->getreceiver()));
         model2->receivemessage(toreceive);
     }
     else{
-        message* toreceive=model2->sendmessage(v->getText(), (v->getsender()), (v->getreceiver()));
+        data->push_back(v->getText());
+        message* toreceive=model2->sendmessage(data, (v->getsender()), (v->getreceiver()));
         model1->receivemessage(toreceive);
     }
 }
 
 void ControlCore::sendAIMessage(UozAppview *v, QString file){
+    ContainerList<QString>* data=new ContainerList<QString>();
     if(v==view1){
-        message* toreceive=model1->sendmessage(v->getText(), (v->getsender()), (v->getreceiver()),file);
+        data->push_back(v->getText());
+        data->push_back(file);
+        message* toreceive=model1->sendmessage(data, (v->getsender()), (v->getreceiver()));
         model2->receivemessage(toreceive);
     }
     else{
-        message* toreceive=model2->sendmessage(v->getText(), (v->getsender()), (v->getreceiver()),file);
+        data->push_back(v->getText());
+        data->push_back(file);
+        message* toreceive=model2->sendmessage(data, (v->getsender()), (v->getreceiver()));
         model1->receivemessage(toreceive);
     }
 }
+
+void ControlCore::sendACMEssage(UozAppview* v, QString n,QString c, QString nick, QString p, QString num){
+
+}
+

@@ -35,6 +35,7 @@ public slots:
     void pressSendC();
     void showmessagesent(message* );
     void showmessagereceived(message*);
+
 private:
     ControlCore* controller;
     QTextBrowser* chat;
