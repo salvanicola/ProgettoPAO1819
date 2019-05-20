@@ -8,7 +8,6 @@ void message::setsend(){
     if(receive)receive=false;
 }
 
-#include <iostream>
 void message::setreceive(){
     if(!receive){
         receive=true;
@@ -21,4 +20,12 @@ const QDateTime* message::getDate() const{
 
 bool message::getreceive() const{
     return receive;
+}
+
+QString message::getSender() const{
+    return sender;
+}
+
+QString message::getReceiver() const{
+    return receiver;
 }

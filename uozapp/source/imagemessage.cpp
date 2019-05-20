@@ -23,3 +23,8 @@ imagemessage* imagemessage::sendmex(){
     return aux;
 }
 
+QDataStream& operator<<(QDataStream& out, const imagemessage& m){
+    out <<QString("imagemessage") << m.getSender() << m.getReceiver() << m.getDate()->toString() << QString(m.getreceive()) << m.url << m.description;
+    return out;
+}
+

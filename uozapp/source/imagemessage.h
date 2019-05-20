@@ -17,6 +17,7 @@ public:
     QString geturl()const;
     QString getdescription()const;//may return nullptr
     virtual imagemessage* sendmex()override;
+    friend QDataStream& operator<<(QDataStream& , const imagemessage& );
 };
 
 #endif // IMAGEMESSAGE_H

@@ -1,6 +1,5 @@
 #include "textmessage.h"
 
-
 textmessage::textmessage(bool r,QString m, QString d, QString s): message(r,m,d), text(s)
 
 {
@@ -23,4 +22,9 @@ textmessage* textmessage::sendmex(){
 
 QString textmessage::getText() const{
     return text;
+}
+
+QDataStream& operator << (QDataStream& out, const textmessage& m){
+    out << QString("textmessage") << m.getSender() << m.getReceiver() << m.getDate()->toString() << QString(m.getreceive()) << m.getText();
+    return out;
 }

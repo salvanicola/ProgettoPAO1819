@@ -22,6 +22,7 @@ public:
     const char* getnumber()const;
     const char* getprefix()const;
     virtual contactmessage* sendmex()override;
+    friend QDataStream& operator <<(QDataStream& , const contactmessage&);
 };
 
 #endif // CONTACTMESSAGE_H

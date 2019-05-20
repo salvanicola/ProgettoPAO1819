@@ -26,3 +26,10 @@ contactmessage* contactmessage::sendmex(){
     setreceive();
     return aux;
 }
+
+QDataStream& operator<<(QDataStream& out, const contactmessage& m){
+    QString num(m.number);
+    QString pr(m.prefix);
+    out << QString("contactmessage") << m.getSender() << m.getReceiver() << m.getDate()->toString() << QString(m.getreceive()) << m.name << m.surname << m.nickname << num  << pr;
+    return out;
+}

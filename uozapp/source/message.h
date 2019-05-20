@@ -3,6 +3,7 @@
 #include <QDateTime>
 #include <QString>
 
+
 class message
 {
 private:
@@ -14,12 +15,15 @@ private:
 protected:
     virtual void setreceive();
     virtual void setsend();
+    void setParam(QString, QString, QDateTime , bool );
 public:
     message(bool , QString ="uknown", QString ="uknown") ;
     virtual ~message() = default;
     const QDateTime* getDate()const;
     bool getreceive()const;
-    virtual message* sendmex() = 0;//metodo di clonazione con specifica non costante perchè segna send=true
+    QString getSender()const;
+    QString getReceiver()const;
+    virtual message* sendmex() = 0;//metodo di clonazione con specifica non costante perchè segna send=true    
 };
 
 #endif // MESSAGE_H. 0

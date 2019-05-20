@@ -13,6 +13,8 @@ public:
     QString getText()const;
     int getlenght()const;//size_t può essere convertito in int
     virtual textmessage* sendmex()override;
+    friend QDataStream& operator<<(QDataStream& , const textmessage& );
+    friend QDataStream& operator>>(QDataStream& , const textmessage& );
 };
 
 #endif // TEXTMESSAGE_H

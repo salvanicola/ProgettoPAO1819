@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QMainWindow>
+#include <QMessageBox>
 
 class UozAppview;
 class Modeluozapp;//necessari per inclusione incrociata dei file .h che darebbe errore sull'ifndef
@@ -23,10 +24,14 @@ public:
     void sendATMessage(UozAppview* );
     void sendAIMessage(UozAppview* , QString);
     void sendACMEssage(UozAppview*, QString,QString,QString,QString,QString);
+    int getModelNum(Modeluozapp*);
 signals:
 
 public slots:
-    void showchat(QString , QString );    
+    void showchat(QString , QString );
+    void saveToFile();
+    void loadFromFile();
+    void closechat();
 };
 
 #endif // CONTROLCORE_H

@@ -4,7 +4,7 @@
 
 UozAppview::UozAppview(ControlCore* control, QDockWidget *parent) : QDockWidget(parent),controller(control), chat(new QTextBrowser(this)), textbox(new QTextEdit()), p(new QPushButton("send")), buttonimage(new QPushButton("send image")), buttoncontact(new QPushButton("send contact"))
 {
-    setWindowFlags(Qt::WindowTitleHint);
+    setFeatures(QDockWidget::NoDockWidgetFeatures);
     QGridLayout* layout= new QGridLayout();
     textbox->setPlaceholderText("Nuovo Messaggio");
     layout->addWidget(chat,0,0,1,3);
@@ -35,11 +35,12 @@ void UozAppview::pressSendT(){
 
 void UozAppview::pressSendI(){
     QString file = QFileDialog::getOpenFileName(this, tr("Select an image"),
-                                      ".", tr("Bitmap Files (*.bmp)\n"
+                                      ".", tr(
                                         "JPEG (*.jpg *jpeg)\n"
                                         "GIF (*.gif)\n"
-                                        "PNG (*.png)\n"));
-    controller->sendAIMessage(this,file);
+                                        "PNG (*.png)\n"
+                                        "Bitmap Files (*.bmp)\n"));
+    if(file!=nullptr)controller->sendAIMessage(this,file);
 }
 
 void UozAppview::pressSendC(){
@@ -60,12 +61,14 @@ void UozAppview::pressSendC(){
     QLineEdit* prefix=new QLineEdit();
     prefix->setPlaceholderText("prefix");
     QLineEdit* number=new QLineEdit();
-    number->setPlaceholderText("number");
-    lay->addWidget(number,3,1);
+    number->setPlaceholderText("number");    
     lay->addWidget(prefix,3,0);
+    lay->addWidget(number,3,1);
     lay->setColumnStretch(1,2);
     QPushButton* ok=new QPushButton("send");
     connect(ok, &QPushButton::clicked, controller, [=](){controller->sendACMEssage(this,nome->text(),cognome->text(),nickname->text(),prefix->text(),number->text());});
+    connect(ok, SIGNAL(clicked()), contactdialog, SLOT(close()));
+    lay->addWidget(ok,4,1);
     contactdialog->setLayout(lay);
     contactdialog->show();
 }
@@ -82,28 +85,42 @@ QString UozAppview::getreceiver(){
     return  receiver;
 }
 
+
 void UozAppview::showmessagesent(message* m){
     if(dynamic_cast<textmessage*>(m)){
         QString text4chat="<";
-        text4chat.append(sender);
+        text4chat.append(dynamic_cast<textmessage*>(m)->getSender());
         text4chat.append("> ");
         text4chat.append(dynamic_cast<textmessage*>(m)->getText());
         chat->append(text4chat);
     }
-    if(dynamic_cast<imagemessage*>(m)){
+    else if(dynamic_cast<imagemessage*>(m)){
         QString text4chat="<";
-        text4chat.append(sender);
+        text4chat.append(dynamic_cast<imagemessage*>(m)->getSender());
         text4chat.append("> ");
         text4chat.append("send an image:");
         chat->append(text4chat);
         QTextDocumentFragment fragment;
-        QString url=QString("<img src='").append(dynamic_cast<imagemessage*>(m)->geturl()).append(QString("'>"));
+        QString url=QString("<img src='").append(dynamic_cast<imagemessage*>(m)->geturl()).append(QString("'/>"));
         fragment = QTextDocumentFragment::fromHtml(url);
         chat->textCursor().insertFragment(fragment);
         chat->setVisible(true);
         if(dynamic_cast<imagemessage*>(m)->getdescription()!=nullptr){
             chat->append(QString("description: ").append(dynamic_cast<imagemessage*>(m)->getdescription()));
         }
+    }
+    else if(dynamic_cast<contactmessage*>(m)){
+        QString text4chat="<";
+        text4chat.append(dynamic_cast<contactmessage*>(m)->getSender());
+        text4chat.append("> ");
+        text4chat.append("send a contact:");
+        chat->append(text4chat);
+        contactmessage* contact=dynamic_cast<contactmessage*>(m);
+        chat->append(QString("Name: ").append(contact->getname()));
+        chat->append(QString("Surname: ").append(contact->getsurname()));
+        chat->append(QString("nickname: ").append(contact->getnickname()));
+        chat->append(QString("Prefix: ").append(contact->getprefix()));
+        chat->append(QString("Number: ").append(contact->getnumber()));
     }
 }
 
@@ -129,6 +146,19 @@ void UozAppview::showmessagereceived(message* m){
         chat->setVisible(true);
         if(dynamic_cast<imagemessage*>(m)->getdescription()!=nullptr){
             chat->append(QString("description: ").append(dynamic_cast<imagemessage*>(m)->getdescription()));
-        }
+        }     
+    }
+    else if(dynamic_cast<contactmessage*>(m)){
+        QString text4chat="<";
+        text4chat.append(sender);
+        text4chat.append("> ");
+        text4chat.append("send a contact:");
+        chat->append(text4chat);
+        contactmessage* contact=dynamic_cast<contactmessage*>(m);
+        chat->append(QString("Name: ").append(contact->getname()));
+        chat->append(QString("Surname: ").append(contact->getsurname()));
+        chat->append(QString("nickname: ").append(contact->getnickname()));
+        chat->append(QString("Prefix: ").append(QString(contact->getprefix())));
+        chat->append(QString("Number: ").append(QString(contact->getnumber())));
     }
 }
