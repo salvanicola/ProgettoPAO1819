@@ -12,6 +12,8 @@ public:
     void write(QString );
     QString getText()const;
     int getlenght()const;//size_t può essere convertito in int
+    bool operator ==(const textmessage& );
+    bool similarText(const QString& );
     virtual textmessage* sendmex()override;
     friend QDataStream& operator<<(QDataStream& , const textmessage& );
     friend QDataStream& operator>>(QDataStream& , const textmessage& );

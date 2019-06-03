@@ -6,12 +6,9 @@ Modeluozapp::Modeluozapp(ControlCore* c, QObject *parent) : QObject (parent), co
 
 }
 
-Modeluozapp::~Modeluozapp(){
-
-}
 
 message* Modeluozapp::sendmessage(ContainerList<QString>* content, QString sender, QString receiver){
-    ContainerList<QString>::const_iterator it=content->begin();
+    ContainerList<QString>::iterator it=content->begin();
     int sizing=content->size();
     if(sizing>2){
         contactmessage* contact=new contactmessage(false,(*content)[it].toLocal8Bit().data(),(*content)[++it].toLocal8Bit().data(),sender, receiver, (*content)[++it],(*content)[++it],(*content)[++it]);
@@ -135,3 +132,41 @@ QDataStream& operator >>(QDataStream& in, Modeluozapp& m){
     return in;
 }
 
+ContainerList<message*> Modeluozapp::searchThis(const QString& s){
+    ContainerList<message*> c;
+    ContainerList<message* >::iterator it=v.begin();
+    for (;it!=v.end();++it) {
+        if(dynamic_cast<textmessage*>(v[it]) && dynamic_cast<textmessage*>(v[it])->similarText(s)){
+            c.push_back(v[it]);
+        }
+        else if(dynamic_cast<imagemessage*>(v[it]) && dynamic_cast<imagemessage*>(v[it])->similarImage(s)){
+            c.push_back(v[it]);
+        }
+        else if(dynamic_cast<contactmessage*>(v[it]) && dynamic_cast<contactmessage*>(v[it])->similarContact(s)){
+            c.push_back(v[it]);
+        }
+    }
+    return c;
+}
+
+void Modeluozapp::removeThisMessage(ContainerList<message*> c){
+    ContainerList<message* >::iterator it=c.begin();
+    for (;it!=c.end();++it) {
+        int sizebef= v.size();
+        message* torem;
+        if(dynamic_cast<textmessage*>(c[it])) torem=new textmessage(*dynamic_cast<textmessage*>(c[it]));
+        else if(dynamic_cast<imagemessage*>(c[it])) torem=new imagemessage(*dynamic_cast<imagemessage*>(c[it]));
+        else if(dynamic_cast<contactmessage*>(c[it])) torem=new contactmessage(*dynamic_cast<contactmessage*>(c[it]));
+        v.remove(c[it]);
+        int sizenow=v.size();
+        if(sizebef==sizenow+1) {
+            emit removesuccess(torem);
+        }
+        else emit failedremove();
+    }
+}
+
+ContainerList<message*> Modeluozapp::getAllMessages() const{
+    ContainerList<message*> aux(v);
+    return aux;
+}

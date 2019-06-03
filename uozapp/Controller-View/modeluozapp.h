@@ -14,7 +14,9 @@ class Modeluozapp : public QObject
     Q_OBJECT
 public:
     explicit Modeluozapp(ControlCore* ,QObject *parent = nullptr);
-    virtual ~Modeluozapp();
+    virtual ~Modeluozapp()=default;
+    ContainerList<message*> searchThis(const QString& );
+    ContainerList<message*> getAllMessages()const;
 private:
     ContainerList<message*> v;
     ControlCore* core;
@@ -23,10 +25,12 @@ signals:
     void messagereceive(message* );
     //void messageremoved();
     void messagesend(message* );
+    void removesuccess(message*);
+    void failedremove();
 public slots:
     message* sendmessage(ContainerList<QString>*, QString ="uknown", QString="uknown");
     void receivemessage(message* );
-    //void removemessage(message* )
+    void removeThisMessage(ContainerList<message*> );
     friend QDataStream& operator <<(QDataStream&, const Modeluozapp& );
     friend QDataStream& operator >>(QDataStream&, Modeluozapp& );
 };

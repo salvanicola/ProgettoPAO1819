@@ -28,3 +28,11 @@ QDataStream& operator<<(QDataStream& out, const imagemessage& m){
     return out;
 }
 
+bool imagemessage::similarImage(const QString & t){
+    return description.contains(t);
+}
+
+bool imagemessage::operator==(const imagemessage & t){
+    if(message::operator==(t) && url==t.url && description==t.description) return true;
+    else return false;
+}

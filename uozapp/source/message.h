@@ -2,7 +2,7 @@
 #define MESSAGE_H
 #include <QDateTime>
 #include <QString>
-
+#include "./QontainerList/containerlist.h"
 
 class message
 {
@@ -21,6 +21,7 @@ public:
     virtual ~message() = default;
     const QDateTime* getDate()const;
     bool getreceive()const;
+    bool operator ==(const message& );
     QString getSender()const;
     QString getReceiver()const;
     virtual message* sendmex() = 0;//metodo di clonazione con specifica non costante perchè segna send=true    

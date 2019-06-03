@@ -4,6 +4,7 @@
 #include "message.h"
 
 
+
 class contactmessage: public message
 {
 private:
@@ -19,6 +20,8 @@ public:
     QString getname()const;
     QString getsurname()const;
     QString getnickname()const;
+    bool operator ==(const contactmessage& );
+    bool similarContact(const QString& );
     const char* getnumber()const;
     const char* getprefix()const;
     virtual contactmessage* sendmex()override;

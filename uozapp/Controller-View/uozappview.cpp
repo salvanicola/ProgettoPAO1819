@@ -2,7 +2,7 @@
 #include "uozappview.h"
 
 
-UozAppview::UozAppview(ControlCore* control, QDockWidget *parent) : QDockWidget(parent),controller(control), chat(new QTextBrowser(this)), textbox(new QTextEdit()), p(new QPushButton("send")), buttonimage(new QPushButton("send image")), buttoncontact(new QPushButton("send contact"))
+UozAppview::UozAppview(ControlCore* control, QDockWidget *parent) : QDockWidget(parent),controller(control), chat(new QTextBrowser(this)), textbox(new QTextEdit()), p(new QPushButton("send")), buttonimage(new QPushButton("send image")), buttoncontact(new QPushButton("send contact")), searchmessage(new QPushButton("search")), removemessage(new QPushButton("remove"))
 {
     setFeatures(QDockWidget::NoDockWidgetFeatures);
     QGridLayout* layout= new QGridLayout();
@@ -13,15 +13,28 @@ UozAppview::UozAppview(ControlCore* control, QDockWidget *parent) : QDockWidget(
     layout->addWidget(p, 1,2);
     layout->addWidget(buttonimage,2,2);
     layout->addWidget(buttoncontact,3,2);
+    layout->addWidget(searchmessage,4,0);
+    layout->addWidget(removemessage,4,1);
     QWidget* widget=new QWidget();
     widget->setLayout(layout);
     setWidget(widget);
     connect(p, SIGNAL(clicked()), this , SLOT(pressSendT()));
-    //connect(textbox, SIGNAL(returnPressed()), p, SLOT(click()));se torna la QLineEdit
+    connect(searchmessage, SIGNAL(clicked()), this, SLOT(searching()));
     connect(p, SIGNAL(clicked()), textbox, SLOT(clear()));
     connect(buttonimage, SIGNAL(clicked()), this, SLOT(pressSendI()));
     connect(buttoncontact,SIGNAL(clicked()),this, SLOT(pressSendC()));
+    connect(removemessage, SIGNAL(clicked()),this,SLOT(removing()));
 
+}
+
+UozAppview::~UozAppview(){
+    delete chat;
+    delete textbox;
+    delete p;
+    delete buttonimage;
+    delete buttoncontact;
+    delete searchmessage;
+    delete removemessage;
 }
 
 void UozAppview::setSender_Receiver(QString s1, QString s2){
@@ -87,78 +100,120 @@ QString UozAppview::getreceiver(){
 
 
 void UozAppview::showmessagesent(message* m){
-    if(dynamic_cast<textmessage*>(m)){
-        QString text4chat="<";
-        text4chat.append(dynamic_cast<textmessage*>(m)->getSender());
-        text4chat.append("> ");
-        text4chat.append(dynamic_cast<textmessage*>(m)->getText());
-        chat->append(text4chat);
-    }
-    else if(dynamic_cast<imagemessage*>(m)){
-        QString text4chat="<";
-        text4chat.append(dynamic_cast<imagemessage*>(m)->getSender());
-        text4chat.append("> ");
-        text4chat.append("send an image:");
-        chat->append(text4chat);
-        QTextDocumentFragment fragment;
-        QString url=QString("<img src='").append(dynamic_cast<imagemessage*>(m)->geturl()).append(QString("'/>"));
-        fragment = QTextDocumentFragment::fromHtml(url);
-        chat->textCursor().insertFragment(fragment);
-        chat->setVisible(true);
-        if(dynamic_cast<imagemessage*>(m)->getdescription()!=nullptr){
-            chat->append(QString("description: ").append(dynamic_cast<imagemessage*>(m)->getdescription()));
-        }
-    }
-    else if(dynamic_cast<contactmessage*>(m)){
-        QString text4chat="<";
-        text4chat.append(dynamic_cast<contactmessage*>(m)->getSender());
-        text4chat.append("> ");
-        text4chat.append("send a contact:");
-        chat->append(text4chat);
-        contactmessage* contact=dynamic_cast<contactmessage*>(m);
-        chat->append(QString("Name: ").append(contact->getname()));
-        chat->append(QString("Surname: ").append(contact->getsurname()));
-        chat->append(QString("nickname: ").append(contact->getnickname()));
-        chat->append(QString("Prefix: ").append(contact->getprefix()));
-        chat->append(QString("Number: ").append(contact->getnumber()));
-    }
+    showMessageOnBrowser(m,chat, false);
 }
 
 void UozAppview::showmessagereceived(message* m){
+    showMessageOnBrowser(m,chat, true);
+}
+
+void UozAppview::showMessageOnBrowser(message* m, QTextBrowser* b, bool rec){
     if(dynamic_cast<textmessage*>(m)){
         QString text4chat="<";
-        text4chat.append(receiver);
+        if(rec)text4chat.append(receiver);
+        else text4chat.append(sender);
         text4chat.append("> ");
         text4chat.append(dynamic_cast<textmessage*>(m)->getText());
         text4chat=text4chat.rightJustified(8);
-        chat->append(text4chat);
+        b->append(text4chat);
     }
     if(dynamic_cast<imagemessage*>(m)){
         QString text4chat="<";
-        text4chat.append(receiver);
+        if(rec)text4chat.append(receiver);
+        else text4chat.append(sender);
         text4chat.append("> ");
         text4chat.append("send an image:");
         chat->append(text4chat);
         QTextDocumentFragment fragment;
         QString url=QString("<img src='").append(dynamic_cast<imagemessage*>(m)->geturl()).append(QString("'>"));
         fragment = QTextDocumentFragment::fromHtml(url);
-        chat->textCursor().insertFragment(fragment);
-        chat->setVisible(true);
+        b->textCursor().insertFragment(fragment);
+        b->setVisible(true);
         if(dynamic_cast<imagemessage*>(m)->getdescription()!=nullptr){
-            chat->append(QString("description: ").append(dynamic_cast<imagemessage*>(m)->getdescription()));
-        }     
+            b->append(QString("description: ").append(dynamic_cast<imagemessage*>(m)->getdescription()));
+        }
     }
     else if(dynamic_cast<contactmessage*>(m)){
         QString text4chat="<";
-        text4chat.append(sender);
+        if(rec)text4chat.append(receiver);
+        else text4chat.append(sender);
         text4chat.append("> ");
         text4chat.append("send a contact:");
-        chat->append(text4chat);
+        b->append(text4chat);
         contactmessage* contact=dynamic_cast<contactmessage*>(m);
-        chat->append(QString("Name: ").append(contact->getname()));
-        chat->append(QString("Surname: ").append(contact->getsurname()));
-        chat->append(QString("nickname: ").append(contact->getnickname()));
-        chat->append(QString("Prefix: ").append(QString(contact->getprefix())));
-        chat->append(QString("Number: ").append(QString(contact->getnumber())));
+        b->append(QString("Name: ").append(contact->getname()));
+        b->append(QString("Surname: ").append(contact->getsurname()));
+        b->append(QString("nickname: ").append(contact->getnickname()));
+        b->append(QString("Prefix: ").append(QString(contact->getprefix())));
+        b->append(QString("Number: ").append(QString(contact->getnumber())));
     }
+}
+
+void UozAppview::searching(){
+    QWidget* textpage=new QWidget();
+    QGridLayout* layout=new QGridLayout();
+    QLabel* ltext=new QLabel("search a word",textpage);
+    layout->addWidget(ltext,1,0);
+    QLineEdit* text= new QLineEdit(textpage);
+    layout->addWidget(text,1,1);
+    QPushButton* start=new QPushButton("start search",textpage);
+    layout->addWidget(start,2,1);
+    connect(start, &QPushButton::clicked, controller, [this,text,textpage](){controller->searchSomething(text->text(), this, textpage);});
+    textpage->setLayout(layout);    
+    textpage->show();
+}
+
+void UozAppview::showResult(ContainerList<message*> c, QWidget* w){
+        if(!c.vuota()){
+            QTextBrowser* brow=new QTextBrowser();
+            QGridLayout* layout=dynamic_cast<QGridLayout*>(w->layout());
+            if(layout){
+                layout->addWidget(brow, 2,0);
+                layout->rowStretch(2);
+                for (auto it=c.begin();it!=c.end();++it) {
+                    showMessageOnBrowser(c[it],brow, c[it]->getreceive());
+                }
+                w->setLayout(layout);
+            }
+        }
+        else{
+            QMessageBox msg(this);
+            msg.setText("no result");
+            msg.setStandardButtons(QMessageBox::Ok | QMessageBox::Cancel);
+            msg.setDefaultButton(QMessageBox::Ok);
+            int ret = msg.exec();
+            if(ret == QMessageBox::Ok){
+                w->close();
+                searching();
+            }
+            else{
+                w->close();
+            }
+        }
+}
+
+void UozAppview::removing(){
+    QWidget* textpage=new QWidget();
+    QGridLayout* layout=new QGridLayout();
+    QLabel* ltext=new QLabel("search a message to remove",textpage);
+    layout->addWidget(ltext,1,0);
+    QLineEdit* text= new QLineEdit(textpage);
+    layout->addWidget(text,1,1);
+    QPushButton* start=new QPushButton("start search",textpage);
+    layout->addWidget(start,2,1);
+    connect(start, &QPushButton::clicked, controller, [this,text,textpage](){controller->removeSomething(text->text(), this, textpage);});
+    textpage->setLayout(layout);
+    textpage->show();
+}
+
+void UozAppview::clearChat(){
+    chat->clear();
+}
+
+void UozAppview::showmessageremoved(message * m){
+    controller->reloadChat(this);
+}
+
+void UozAppview::showMessageOnChat(message * m, bool rec){
+    showMessageOnBrowser(m,chat,rec);
 }

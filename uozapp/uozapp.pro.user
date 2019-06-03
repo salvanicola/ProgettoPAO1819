@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.9.0, 2019-05-20T12:05:47. -->
+<!-- Written by QtCreator 4.9.1, 2019-06-03T12:49:35. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -58,7 +58,16 @@
    <valuelist type="QVariantList" key="ClangCodeModel.CustomCommandLineKey">
     <value type="QString">-fno-delayed-template-parsing</value>
    </valuelist>
-   <value type="bool" key="ClangCodeModel.UseGlobalConfig">true</value>
+   <value type="bool" key="ClangCodeModel.UseGlobalConfig">false</value>
+   <value type="QString" key="ClangCodeModel.WarningConfigId">{c874a710-e5a9-40d4-83c2-cb730dc23bc6}</value>
+   <value type="bool" key="ClangTools.BuildBeforeAnalysis">false</value>
+   <value type="QString" key="ClangTools.DiagnosticConfig">Builtin.TidyAndClazy</value>
+   <valuelist type="QVariantList" key="ClangTools.SelectedDirs">
+    <value type="QString">C:/Users/nicol/OneDrive/Documenti/ProgettoPAO1819/uozapp/uozapp.pro</value>
+   </valuelist>
+   <valuelist type="QVariantList" key="ClangTools.SelectedFiles"/>
+   <valuelist type="QVariantList" key="ClangTools.SuppressedDiagnostics"/>
+   <value type="bool" key="ClangTools.UseGlobalSettings">true</value>
   </valuemap>
  </data>
  <data>

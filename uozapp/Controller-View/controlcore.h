@@ -32,6 +32,9 @@ public slots:
     void saveToFile();
     void loadFromFile();
     void closechat();
+    void searchSomething(const QString& , UozAppview* ,QWidget* );
+    void removeSomething(const QString&, UozAppview*, QWidget* );
+    void reloadChat(UozAppview* );
 };
 
 #endif // CONTROLCORE_H

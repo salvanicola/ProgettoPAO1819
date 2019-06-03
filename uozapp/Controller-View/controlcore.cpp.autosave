@@ -235,6 +235,9 @@ void ControlCore::removeSomething(const QString& s, UozAppview* v, QWidget* w){
 void ControlCore::reloadChat(UozAppview* v){
     v->clearChat();
     ContainerList<message*> contrel;
+    +
+    /+-9
+    63.
     if(v==view1)contrel=model1->getAllMessages();
     else if(v==view2)contrel=model2->getAllMessages();
     if(contrel.vuota()==false){

@@ -22,6 +22,11 @@ bool message::getreceive() const{
     return receive;
 }
 
+bool message::operator==(const message & m){
+    if(sender==m.sender  && receiver == m.receiver && date == m.date) return true;
+    else return false;
+}
+
 QString message::getSender() const{
     return sender;
 }

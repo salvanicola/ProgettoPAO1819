@@ -28,3 +28,12 @@ QDataStream& operator << (QDataStream& out, const textmessage& m){
     out << QString("textmessage") << m.getSender() << m.getReceiver() << m.getDate()->toString() << QString(m.getreceive()) << m.getText();
     return out;
 }
+
+bool textmessage::similarText(const QString& t){
+    return text.contains(t);
+}
+
+bool textmessage::operator==(const textmessage & t){
+    if(message::operator==(t) && text==t.text) return true;
+    else return false;
+}
