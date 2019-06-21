@@ -166,7 +166,32 @@ void Modeluozapp::removeThisMessage(ContainerList<message*> c){
     }
 }
 
-ContainerList<message*> Modeluozapp::getAllMessages() const{
-    ContainerList<message*> aux(v);
-    return aux;
+message* Modeluozapp::operator[](ContainerList<message*>::const_iterator it)const{
+    return v[it];
 }
+
+message* Modeluozapp::operator[](ContainerList<message*>::iterator it){
+    return v[it];
+}
+
+bool Modeluozapp::empty() const{
+    return v.vuota();
+}
+
+ContainerList<message*>::const_iterator Modeluozapp::begin()const{
+    return v.begin();
+}
+
+ContainerList<message*>::iterator Modeluozapp::begin(){
+    return v.begin();
+}
+
+
+ContainerList<message*>::const_iterator Modeluozapp::end()const{
+    return v.end();
+}
+
+ContainerList<message*>::iterator Modeluozapp::end(){
+    return v.end();
+}
+

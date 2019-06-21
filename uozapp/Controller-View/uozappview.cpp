@@ -54,6 +54,7 @@ void UozAppview::pressSendI(){
                                         "PNG (*.png)\n"
                                         "Bitmap Files (*.bmp)\n"));
     if(file!=nullptr)controller->sendAIMessage(this,file);
+    textbox->clear();
 }
 
 void UozAppview::pressSendC(){
@@ -210,7 +211,7 @@ void UozAppview::clearChat(){
     chat->clear();
 }
 
-void UozAppview::showmessageremoved(message * m){
+void UozAppview::showmessageremoved(message(*)){
     controller->reloadChat(this);
 }
 

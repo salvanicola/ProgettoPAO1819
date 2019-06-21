@@ -17,6 +17,15 @@ public:
     virtual ~Modeluozapp()=default;
     ContainerList<message*> searchThis(const QString& );
     ContainerList<message*> getAllMessages()const;
+    message* operator[](const ContainerList<message*>::const_iterator )const;
+    message* operator[](const ContainerList<message*>::iterator );
+    friend QDataStream& operator <<(QDataStream&, const Modeluozapp& );
+    friend QDataStream& operator >>(QDataStream&, Modeluozapp& );
+    bool empty()const;
+    ContainerList<message*>::const_iterator begin()const;
+    ContainerList<message*>::const_iterator end()const;
+    ContainerList<message*>::iterator begin();
+    ContainerList<message*>::iterator end();
 private:
     ContainerList<message*> v;
     ControlCore* core;
@@ -31,8 +40,6 @@ public slots:
     message* sendmessage(ContainerList<QString>*, QString ="uknown", QString="uknown");
     void receivemessage(message* );
     void removeThisMessage(ContainerList<message*> );
-    friend QDataStream& operator <<(QDataStream&, const Modeluozapp& );
-    friend QDataStream& operator >>(QDataStream&, Modeluozapp& );
 };
 
 #endif // MODELUOZAPP_H

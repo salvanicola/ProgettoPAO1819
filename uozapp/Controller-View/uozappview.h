@@ -40,7 +40,7 @@ public slots:
     void pressSendC();
     void showmessagesent(message* );
     void showmessagereceived(message*);
-    void showmessageremoved(message* );
+    void showmessageremoved(message*);
     void searching();
     void removing();
     void clearChat();

@@ -89,7 +89,7 @@ void ControlCore::sendACMEssage(UozAppview* v, QString n,QString c, QString nick
 
 void ControlCore::saveToFile(){
     QString fileName = QFileDialog::getSaveFileName(mainwindow,
-           tr("Save Chat"), "",
+           tr("Save Chat"), QDir::root().path(),
            tr("Chat Format (*.chf);;All Files (*)"));
     if (fileName.isEmpty())
             return;
@@ -112,7 +112,7 @@ void ControlCore::saveToFile(){
 void ControlCore::loadFromFile()
 {
     QString fileName = QFileDialog::getOpenFileName(mainwindow,
-        tr("Open Address Book"), "",
+        tr("Open Address Book"), QDir::root().path(),
         tr("Chat Format (*.chf);;All Files (*)"));
     if (fileName.isEmpty())
            return;
@@ -234,12 +234,12 @@ void ControlCore::removeSomething(const QString& s, UozAppview* v, QWidget* w){
 
 void ControlCore::reloadChat(UozAppview* v){
     v->clearChat();
-    ContainerList<message*> contrel;
-    if(v==view1)contrel=model1->getAllMessages();
-    else if(v==view2)contrel=model2->getAllMessages();
-    if(contrel.vuota()==false){
-        for(auto it=contrel.begin(); it!=contrel.end(); ++it){
-            v->showMessageOnChat(contrel[it], contrel[it]->getreceive());
+    Modeluozapp* m;
+    if(v==view1)m=model1;
+    else m=model2;
+    if(m->empty()==false){
+        for(auto it=m->begin(); it!=m->end(); ++it){
+            v->showMessageOnChat((*m)[it], (*m)[it]->getreceive());
         }
     }
 }

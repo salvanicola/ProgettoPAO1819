@@ -44,7 +44,7 @@ public:
         nodo* p;
     public:
         iterator(nodo* =nullptr);
-        iterator(const const_iterator& );
+        //iterator(const const_iterator& );
         bool operator==(const iterator&);
         bool operator!=(const iterator&);
         iterator& operator++(); //prefisso
@@ -148,8 +148,8 @@ typename ContainerList<T>::const_iterator ContainerList<T>::const_iterator::oper
 template<class T>
 ContainerList<T>::iterator::iterator(nodo* punt): p(punt){}
 
-template<class T>
-ContainerList<T>::iterator::iterator(const const_iterator& punt): p(punt){}
+/*template<class T>
+ContainerList<T>::iterator::iterator(const const_iterator& punt): p(punt){}*/
 
 template<class T>
 bool ContainerList<T>::iterator::operator==(const iterator& it){
@@ -338,7 +338,9 @@ typename ContainerList<T>::iterator ContainerList<T>::remove(const T& el){
     ContainerList<T>::iterator it=search(el);
     if(it!=nullptr){
         if((*it)->prev!=nullptr)(*it)->prev->next=(*it)->next;
+        else first=(*it)->next;
         if((*it)->next!=nullptr)(*it)->next->prev=(*it)->prev;
+        else last=(*it)->prev;
         ContainerList<T>::iterator aux;
         if((*it)->prev!=nullptr)aux=(*it)->prev;
         else aux=(*it)->next;
@@ -355,12 +357,14 @@ typename ContainerList<T>::iterator ContainerList<T>::remove(const T& el){
 
 template <class T>
 int ContainerList<T>::size()const{
-    const nodo* p=first;
+    int i=0;
+    for(auto it=begin(); it!=end(); ++it, ++i){}
+    /*const nodo* p=first;
     int i=0;
     while(p!=nullptr){
         p=p->next;
         ++i;
-    }
+    }*/
     return i;
 }
 
