@@ -28,7 +28,7 @@ QDataStream& operator<<(QDataStream& out, const imagemessage& m){
     return out;
 }
 
-bool imagemessage::similarImage(const QString & t){
+bool imagemessage::similar(const QString & t)const{
     return description.contains(t);
 }
 

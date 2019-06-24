@@ -17,7 +17,7 @@ public:
     QString geturl()const;
     QString getdescription()const;//may return nullptr
     bool operator ==(const imagemessage& );
-    bool similarImage(const QString& );
+    bool similar(const QString& )const override;
     virtual imagemessage* sendmex()override;
     friend QDataStream& operator<<(QDataStream& , const imagemessage& );
 };

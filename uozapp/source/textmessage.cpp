@@ -1,7 +1,6 @@
 #include "textmessage.h"
 
 textmessage::textmessage(bool r,QString m, QString d, QString s): message(r,m,d), text(s)
-
 {
 
 }
@@ -29,7 +28,7 @@ QDataStream& operator << (QDataStream& out, const textmessage& m){
     return out;
 }
 
-bool textmessage::similarText(const QString& t){
+bool textmessage::similar(const QString& t)const{
     return text.contains(t);
 }
 

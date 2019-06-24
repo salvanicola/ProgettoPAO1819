@@ -34,20 +34,12 @@ QDataStream& operator<<(QDataStream& out, const contactmessage& m){
     return out;
 }
 
-bool contactmessage::similarContact(const QString& t){
+bool contactmessage::similar(const QString& t)const{
     ContainerList<QString> c;
     if(t == name) return true;
     if(t == surname)  return true;
     if(t == nickname) return true;
     else return false;
-    /*bool control=true;
-    for(int i=0; i < 10 && control; ++i){
-         if(i < 2) control = (prefix[i]==t);
-         else control = false;
-         if(control) control = (number[i]==t);
-         else control = false;
-    }
-    if(control) c.push_back("number");*/
 }
 
 bool contactmessage::operator==(const contactmessage & t){

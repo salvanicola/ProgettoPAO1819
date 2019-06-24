@@ -21,7 +21,7 @@ public:
     QString getsurname()const;
     QString getnickname()const;
     bool operator ==(const contactmessage& );
-    bool similarContact(const QString& );
+    bool similar(const QString& )const override;
     const char* getnumber()const;
     const char* getprefix()const;
     virtual contactmessage* sendmex()override;

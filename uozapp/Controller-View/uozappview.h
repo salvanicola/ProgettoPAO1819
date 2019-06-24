@@ -30,8 +30,8 @@ public:
     QString getsender();
     QString getreceiver();
     void showResult(ContainerList<message*> , QWidget* );
-    void showMessageOnBrowser(message*, QTextBrowser*, bool);
-    void showMessageOnChat(message*, bool);
+    void showMessageOnBrowser(message*, QTextBrowser*);
+    void showMessageOnChat(message*);
 signals:
 
 public slots:

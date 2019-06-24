@@ -24,6 +24,7 @@ public:
     bool operator ==(const message& );
     QString getSender()const;
     QString getReceiver()const;
+    virtual bool similar(const QString&)const = 0;
     virtual message* sendmex() = 0;//metodo di clonazione con specifica non costante perchè segna send=true    
 };
 

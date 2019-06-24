@@ -39,7 +39,6 @@ SOURCES += \
 
 HEADERS += \
     QontainerList/containerlist.h \
-    QontainerList/deepptr.h \
     source/imagemessage.h \
     source/message.h \
     source/textmessage.h \

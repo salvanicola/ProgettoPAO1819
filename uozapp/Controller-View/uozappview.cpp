@@ -101,18 +101,17 @@ QString UozAppview::getreceiver(){
 
 
 void UozAppview::showmessagesent(message* m){
-    showMessageOnBrowser(m,chat, false);
+    showMessageOnBrowser(m,chat);
 }
 
 void UozAppview::showmessagereceived(message* m){
-    showMessageOnBrowser(m,chat, true);
+    showMessageOnBrowser(m,chat);
 }
 
-void UozAppview::showMessageOnBrowser(message* m, QTextBrowser* b, bool rec){
+void UozAppview::showMessageOnBrowser(message* m, QTextBrowser* b){
     if(dynamic_cast<textmessage*>(m)){
         QString text4chat="<";
-        if(rec)text4chat.append(receiver);
-        else text4chat.append(sender);
+        text4chat.append(m->getSender());
         text4chat.append("> ");
         text4chat.append(dynamic_cast<textmessage*>(m)->getText());
         text4chat=text4chat.rightJustified(8);
@@ -120,8 +119,7 @@ void UozAppview::showMessageOnBrowser(message* m, QTextBrowser* b, bool rec){
     }
     if(dynamic_cast<imagemessage*>(m)){
         QString text4chat="<";
-        if(rec)text4chat.append(receiver);
-        else text4chat.append(sender);
+        text4chat.append(m->getSender());
         text4chat.append("> ");
         text4chat.append("send an image:");
         chat->append(text4chat);
@@ -136,8 +134,7 @@ void UozAppview::showMessageOnBrowser(message* m, QTextBrowser* b, bool rec){
     }
     else if(dynamic_cast<contactmessage*>(m)){
         QString text4chat="<";
-        if(rec)text4chat.append(receiver);
-        else text4chat.append(sender);
+        text4chat.append(m->getSender());
         text4chat.append("> ");
         text4chat.append("send a contact:");
         b->append(text4chat);
@@ -172,7 +169,7 @@ void UozAppview::showResult(ContainerList<message*> c, QWidget* w){
                 layout->addWidget(brow, 2,0);
                 layout->rowStretch(2);
                 for (auto it=c.begin();it!=c.end();++it) {
-                    showMessageOnBrowser(c[it],brow, c[it]->getreceive());
+                    showMessageOnBrowser(c[it],brow/*, c[it]->getreceive()*/);
                 }
                 w->setLayout(layout);
             }
@@ -211,10 +208,10 @@ void UozAppview::clearChat(){
     chat->clear();
 }
 
-void UozAppview::showmessageremoved(message(*)){
+void UozAppview::showmessageremoved(message*){
     controller->reloadChat(this);
 }
 
-void UozAppview::showMessageOnChat(message * m, bool rec){
-    showMessageOnBrowser(m,chat,rec);
+void UozAppview::showMessageOnChat(message * m){
+    showMessageOnBrowser(m,chat);
 }

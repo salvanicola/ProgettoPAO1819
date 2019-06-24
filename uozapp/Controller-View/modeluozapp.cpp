@@ -136,15 +136,7 @@ ContainerList<message*> Modeluozapp::searchThis(const QString& s){
     ContainerList<message*> c;
     ContainerList<message* >::iterator it=v.begin();
     for (;it!=v.end();++it) {
-        if(dynamic_cast<textmessage*>(v[it]) && dynamic_cast<textmessage*>(v[it])->similarText(s)){
-            c.push_back(v[it]);
-        }
-        else if(dynamic_cast<imagemessage*>(v[it]) && dynamic_cast<imagemessage*>(v[it])->similarImage(s)){
-            c.push_back(v[it]);
-        }
-        else if(dynamic_cast<contactmessage*>(v[it]) && dynamic_cast<contactmessage*>(v[it])->similarContact(s)){
-            c.push_back(v[it]);
-        }
+        if((v[it])->similar(s))c.push_back(v[it]);
     }
     return c;
 }

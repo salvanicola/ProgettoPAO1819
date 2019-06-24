@@ -2,7 +2,6 @@
 #define CONTAINERLIST_H
 
 #include <stdexcept>
-//#include "deepptr.h"
 
 template<class T>
 class ContainerList
@@ -22,7 +21,6 @@ private:
     nodo* first;
     nodo* last;
     static nodo* copy(nodo*);
-    static void destroy(nodo*);
 public:
     class const_iterator{
         friend class ContainerList;
@@ -44,7 +42,6 @@ public:
         nodo* p;
     public:
         iterator(nodo* =nullptr);
-        //iterator(const const_iterator& );
         bool operator==(const iterator&);
         bool operator!=(const iterator&);
         iterator& operator++(); //prefisso
@@ -148,8 +145,6 @@ typename ContainerList<T>::const_iterator ContainerList<T>::const_iterator::oper
 template<class T>
 ContainerList<T>::iterator::iterator(nodo* punt): p(punt){}
 
-/*template<class T>
-ContainerList<T>::iterator::iterator(const const_iterator& punt): p(punt){}*/
 
 template<class T>
 bool ContainerList<T>::iterator::operator==(const iterator& it){
@@ -239,13 +234,6 @@ typename ContainerList<T>::nodo* ContainerList<T>::copy(nodo* p){
     return first;
 }
 
-template <class T>
-void ContainerList<T>::destroy(nodo* p){
-    if(p){
-        destroy(p->next);
-        delete p;
-    }
-}
 
 template<class T>
 void ContainerList<T>::push_back(const T& el){
@@ -359,12 +347,6 @@ template <class T>
 int ContainerList<T>::size()const{
     int i=0;
     for(auto it=begin(); it!=end(); ++it, ++i){}
-    /*const nodo* p=first;
-    int i=0;
-    while(p!=nullptr){
-        p=p->next;
-        ++i;
-    }*/
     return i;
 }
 

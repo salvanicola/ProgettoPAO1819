@@ -32,13 +32,12 @@ void ControlCore::showchat(QString s1, QString s2){
 
 void ControlCore::sendATMessage(UozAppview* v){
     ContainerList<QString>* data=new ContainerList<QString>();
+    data->push_back(v->getText());
     if(v==view1){
-        data->push_back(v->getText());
         message* toreceive=model1->sendmessage(data, (v->getsender()), (v->getreceiver()));
         model2->receivemessage(toreceive);
     }
     else{
-        data->push_back(v->getText());
         message* toreceive=model2->sendmessage(data, (v->getsender()), (v->getreceiver()));
         model1->receivemessage(toreceive);
     }
@@ -54,8 +53,8 @@ void ControlCore::sendAIMessage(UozAppview *v, QString file){
         model2->receivemessage(toreceive);
     }
     else{
-        data->push_back(v->getText());
         data->push_back(file);
+        data->push_back(v->getText());      
         message* toreceive=model2->sendmessage(data, (v->getsender()), (v->getreceiver()));
         model1->receivemessage(toreceive);
     }
@@ -239,7 +238,7 @@ void ControlCore::reloadChat(UozAppview* v){
     else m=model2;
     if(m->empty()==false){
         for(auto it=m->begin(); it!=m->end(); ++it){
-            v->showMessageOnChat((*m)[it], (*m)[it]->getreceive());
+            v->showMessageOnChat((*m)[it]);
         }
     }
 }
